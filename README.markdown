@@ -1,7 +1,7 @@
 # Dashboard
 
 This is a simple dashboard for a small team collaboration written in clojure using Compojure & MongoDB.
-It's a first attempt to use Compojure for web develpment and it's a in very alpha state.
+It's a first attempt to use Compojure for web develpment and it's in a very alpha state.
 Lots of bugs and lacks of functionality.
 
 ## Usage
