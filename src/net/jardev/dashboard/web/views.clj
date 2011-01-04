@@ -56,8 +56,11 @@
                 "yyyy-MM-dd HH:mm"))
               date)))
 
-(defn show-eta [eta]
-  [:tr {:class (str (:row-class eta) (when (:done eta) " eta-done"))}
+(defn show-eta [eta not-done-class]
+  [:tr {:class (str (:row-class eta)
+                    (if (:done eta)
+                      " eta-done"
+                      (str " " not-done-class)))}
    [:td.who (:username (:user eta))]
    [:td.when (format-date (:when eta))]
    [:td.what
@@ -90,10 +93,10 @@
     [:h3 "Current Status:"]
     [:table.eta
      (for [eta (add-cycles (:future etas))]
-       (show-eta eta))
+       (show-eta eta nil))
      (show-now (:now etas))
      (for [eta (add-cycles (:past etas))]
-       (show-eta eta))]]
+       (show-eta eta "missed"))]]
    [:meta {:http-equiv "refresh"
            :content "30; /"}]))
 

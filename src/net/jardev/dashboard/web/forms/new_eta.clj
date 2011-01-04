@@ -46,10 +46,11 @@
   (let [user (db/find-user (current-username))
         what (:what data)
         eta (parse-when (:when data))
-        comment (:comment data)
-        cur-eta (db/find-current-user-eta user)]
-    (when cur-eta
-      (db/done-eta cur-eta))
+        comment (:comment data)]
+    ; Close all ETAs as done
+    (doseq [eta (db/find-not-done-user-eta user)]
+      (db/done-eta eta))
+    ; Create a new ETA
     (db/new-eta user what eta comment)))
 
 (def labels

@@ -107,6 +107,11 @@
                        :user user
                        :when {:$gte now}})))
 
+(defn find-not-done-user-eta [user]
+  (fetch :eta
+         :where {:done {:$exists false}
+                 :user user}))
+
 (defn get-noeta-users
   "Return users which do not have ETA"
   []

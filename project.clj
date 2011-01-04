@@ -12,7 +12,8 @@
                  [congomongo "0.1.3-SNAPSHOT"]
                  [org.clojars.sethtrain/postal "0.2.0"]
                  [lein-daemon "0.2.1"]]
-  :dev-dependencies [[lein-daemon "0.2.1"]]
+  :dev-dependencies [[lein-daemon "0.2.1"]
+                     [swank-clojure "1.2.1"]]
   :daemon {"web" {:ns "net.jardev.dashboard.services.web"
                   :options {:errfile "web.log"
                             :pidfile "web.pid"}}

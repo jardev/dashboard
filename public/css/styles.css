@@ -284,6 +284,11 @@ table.eta tr.eta-done td {
     font-size:11px;
 }
 
+table.eta tr.missed td {
+    font-weight: bold;
+    color: red;
+}
+
 table.eta tr.eta-done td small {
     font-size:10px;
 }
