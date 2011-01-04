@@ -2,23 +2,23 @@
 
 This is a simple dashboard for a small team collaboration written in clojure using Compojure & MongoDB.
 It's a first attempt to use Compojure for web develpment and it's a in very alpha state.
-Lots of bugs a lack of functionality.
+Lots of bugs and lacks of functionality.
 
 ## Usage
 
 1. Install [Leiningen](https://github.com/technomancy/leiningen)
 2. Install [MongoDB](http://www.mongodb.org/)
 3. Install Dashboard:
-    $ git clone git://github.com/jardev/dashboard.git
-    $ cd dashboard
-    $ lein deps
+        $ git clone git://github.com/jardev/dashboard.git
+        $ cd dashboard
+        $ lein deps
 4. Check settings in dashboard/src/net/jardev/dashboard/config.clj
 5. Run:
-    $ lein daemon start web
+        $ lein daemon start web
 6. Add a user:
-    $ lein repl
-    user=> (require '[net.jardev.dashboard.api.db :as db])
-    user=> (db/add-user {:username "demo" :password "demo" :roles #{"user"}})
+        $ lein repl
+        user=> (require '[net.jardev.dashboard.api.db :as db])
+        user=> (db/add-user {:username "demo" :password "demo" :roles #{"user"}})
 7. Got to http://127.0.0.1:8000/
 8. Log in as demo/demo
 
