@@ -1,0 +1,379 @@
+@charset 'utf-8';
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+	width: 100%;
+	padding: 0;
+    text-align: justify;
+    margin: 0 auto;
+	padding: 0;
+	font-family: Arial, sans-serif;
+	color: #222;
+	background-color: #e5e5e5;
+	text-align: center;
+	min-width: 870px;
+}
+
+body {
+	background: #E5E5E5;
+}
+
+/*-------------------------------------------------
+GLOBALS & GENERAL CASES
+-------------------------------------------------*/
+
+input { padding: 3px; }
+
+span.help {
+  font-size: 10px;
+  color: #666;
+}
+
+a {text-decoration: underline; padding: 1px; }
+a:link { color: #03c; }
+a:visited { color: #03c; }
+a:hover { color: #fff; background-color: #30c; text-decoration: none; }
+
+
+a.image:link, a.image:visited, a.image:hover {
+	background: none;
+	padding: 0;
+	text-decoration: none;
+}
+
+a.image img {
+	border: none;
+}
+
+a.black:link, a.black:visited {
+	color: #000;
+}
+
+a.black:hover {
+	color: #fff;
+	background: #000;
+}
+
+form {
+	margin: 0;
+	padding: 0;
+}
+
+p {
+	font-size: 12px;
+	line-height: 16px;
+}
+
+p.submit,
+div.submit {
+  color: #666;
+  font-size: 11px;
+}
+
+p.submit input {
+  vertical-align: middle;
+}
+
+div.submit input {
+  font-size: 14px;
+}
+
+small {
+	font-size: 10px;
+	line-height: 13px;
+}
+
+blockquote {
+	font-size: 12px;
+	color: #666;
+	margin: 20px;
+}
+
+ol, ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+ul li {
+	list-style-type: none;
+}
+
+li {
+	font-size: 11px;
+	line-height: 13px;
+	padding: 3px 0;
+}
+
+div.widget li {
+  padding: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+h1 {
+	padding: 0;
+	border-bottom: 0;
+	margin: 0;
+	color: #333;
+	font-size: 22px;
+	font-weight: bold;
+}
+
+h1.blankslate {
+	background: #ff6;
+	color: #000;
+	margin-bottom: 10px;
+	padding: 5px;
+	margin-left: -5px;
+}
+
+h1.blankslate a {
+	color: #f00;
+}
+
+h1.blankslate a:hover {
+	background-color: #000;
+	color: #fff;
+}
+
+p.blankslate {
+  font-size: 14px;
+  color: #000;
+  padding: 5px;
+  margin: 0 0 10px 0;
+}
+
+p.blankslate strong {
+  background: #ff6;
+}
+
+h2 {
+	margin: 20px 0 5px 0px;
+	color: #333;
+	font-size: 14px;
+	padding: 0;
+}
+
+h2.subheader {
+	padding: 0 0 2px 0;
+	margin: 15px 0 5px 0;
+	font-size: 12px;
+	border-bottom: 1px solid #000;
+	color: #000;
+}
+
+h3 {
+	margin: 20px 0 0 0;
+	color: #666;
+	font-size: 14px;
+	padding: 0;
+}
+
+.smallnote {
+	font-size: 10px;
+	color: #999;
+	font-weight: normal;
+}
+
+.light {
+	font-weight: normal;
+}
+
+.lightgray {
+	font-weight: normal;
+	color: #666;
+	font-size: 9px;
+}
+
+.lightgray a:link, .lightgray a:visited {
+	color: #999;
+	background: inherit;
+	text-decoration: underline;
+}
+
+.lightgray a:hover {
+	color: #fff;
+	background: #000;
+}
+
+.smallgray {
+  font-weight: normal;
+  color: #666;
+  font-size: 10px;
+}
+
+.smallgray a:link, .smallgray a:visited {
+  color: #666;
+  background: inherit;
+  text-decoration: underline;
+}
+
+.smallgray a:hover {
+  color: #fff;
+  background: #000;
+}
+
+.highlight {
+	background-color: #ffc;
+}
+
+td, th {
+	padding: 3px;
+	text-align: left;
+}
+
+.bigger {
+	font-size: 12px;
+}
+
+.red {
+	color: red;
+}
+
+.blue {
+	color: #06c;
+	}
+
+.green {
+	color: #390;
+	}
+
+code, pre	{
+	font-family: monospace;
+	background: inherit;
+	color: #333;
+	font-size: 12px;
+	}
+
+pre {
+  overflow: auto;
+}
+
+table.eta td {
+    border-bottom: 1px solid #EFEFEF;
+    border-right: 1px solid #EFEFEF;
+    padding: 2px 4px;
+    padding-left:7px;
+}
+
+table.eta {
+    font-size:14px;
+    width:100%;
+    margin-top:10px;
+    padding:0;
+    border-top: 1px solid #EFEFEF;
+    border-left: 1px solid #EFEFEF;
+    border-spacing: 2px 2px;
+    border-collapse: collapse;
+}
+
+table.eta tr.eta-done td {
+    color:grey;
+}
+
+table.eta tr.eta-done td small {
+    color:lightgrey;
+}
+
+table.eta tr.eta-done td {
+    padding-top:0;
+    padding-bottom:0;
+    font-size:11px;
+}
+
+table.eta tr.eta-done td small {
+    font-size:10px;
+}
+
+table.eta tr.eta-now {
+    background-color: #EFEFFF;
+    font-size:15px;
+}
+
+table.eta tr.row1 {
+    background-color: #FAFAFF;
+}
+
+table.eta tr.row2 {
+    background-color: #FEFEFE;
+}
+
+table.eta tr:hover {
+    background-color: #FCFDDD;
+}
+
+table.eta td.who {
+    width: 150px;
+}
+
+table.eta td.when {
+    width: 170px;
+    text-align:center;
+}
+
+table.eta td.what {
+    padding-left:14px;
+}
+
+#page {
+    width: 980px;
+    margin: 0 auto;
+    margin-top: 45px;
+    margin-bottom: 45px;
+    border: 1px solid lightgrey;
+    text-align:center;
+    background-color: white;
+}
+
+#header {
+    background:none repeat scroll 0 0 #EDF3FE;
+    margin:0 0 5px;
+    padding:7px 30px 7px 24px;
+}
+
+#content {
+    margin-top: 3px;
+}
+
+#commands {
+    float: right;
+    list-style-type: none;
+    line-height: 14px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+    padding-right:7px;
+}
+
+#commands ul.clear {
+    clear: both;
+    margin-top: 6px;
+}
+
+#commands li {
+    display: inline;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+#users {
+    list-style-type: none;
+    text-align: left;
+    font-weight: bold;
+    padding-left:7px;
+}
+
+#users ul.clear {
+    clear: both;
+    margin-top: 6px;
+}
+
+#users li {
+    display: inline;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    font-size: 14px;
+}

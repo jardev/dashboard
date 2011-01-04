@@ -1,0 +1,5 @@
+* TODO:
+** Notification service 2cp
+** Registration/invitation 3cp
+** User/task statistics (time) 3cp
+** Deploy 1cp

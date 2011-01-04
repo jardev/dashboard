@@ -1,0 +1,124 @@
+div.sandbar-form {
+   font-family: Arial, Helvetica, sans-serif;
+   color: #666;
+   margin: 10px;
+   margin-top: 20px;
+   font-size: 12px;
+}
+
+div.sandbar-form input.textfield {
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 15px;
+   border: 1px solid #ccc;
+   padding: 5px;
+   color: #4d4d4d;
+}
+
+div.sandbar-form textarea {
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 15px;
+   border: 1px solid #ccc;
+   padding: 5px;
+   color: #4d4d4d;
+}
+
+div.sandbar-form span.group-label {
+ position: relative;
+ left: 15px;
+ top: 8px;
+ font-weight: bold;
+ background: white;
+}
+
+div.sandbar-form div.group {
+ border: 1px solid #ccc;
+ width: 96%;
+ padding: 10px;
+}
+
+div.sandbar-form div.group-checkbox {
+ margin: 10px;
+}
+
+div.sandbar-form input.sandbar-button {
+   font: arial,sans-serif
+   padding: 5px;
+   font-size: 15px;
+   color: #4d4d4d;
+}
+
+div.sandbar-form div.error-message {
+   height: 24px;
+   padding-left: 24px;
+   background: url(../images/warning.png) no-repeat 4px 0px;
+   color: red;
+   vertical-align: bottom;
+}
+
+div.sandbar-form div.field-label {
+   padding-top: 3px;
+   margin-bottom: 5px;
+   font-weight: bold;
+}
+
+div.sandbar-form span.field-label {
+   padding-top: 3px;
+   font-weight: bold;
+}
+
+div.sandbar-form div.field-label span.required {
+   padding-left: 3px;
+   color: orange;
+}
+
+/* over under form */
+
+div.sandbar-form div.form-header {
+   padding: 3px;
+   background: #e8ecf5 url(../images/form_blue_edit.png) no-repeat 4px 4px;
+   border: 1px solid #C0C0C0;
+   margin-bottom: 10px;
+   padding-left: 30px;
+}
+
+div.sandbar-form div.form-header table {
+ width: 100%;
+}
+
+div.sandbar-form span.form-title {
+ font-family: Arial, Verdana, Arial, Helvetica, sans-serif;
+ font-size: 18px;
+ font-weight: bold;
+ height: 40px;
+ vertical-align: top;
+ color: #666666;
+}
+
+div.form-header span.header-buttons {
+ text-align: right;
+}
+
+div.sandbar-form div.form-footer {
+ background: #e8ecf5;
+ padding: 5px;
+ border: 1px solid #C0C0C0;
+ margin-top: 10px;
+}
+
+div.sandbar-form div.buttons {
+   padding-top: 5px;
+   text-align: right;
+}
+
+div.form-error-message {
+   color: #666;
+   font-family: Arial, Helvetica, sans-serif;
+   font-weight: bold;
+   margin: 10px auto;
+   padding: 5px;
+   text-align: left;
+   vertical-align: bottom;
+   background: #ffffcc url(../images/warning.png) no-repeat 3px 3px;
+   padding-left: 22px;
+   border: 1px solid yellow;
+}
