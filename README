@@ -1,43 +1,12 @@
-# dashboard
+# Dashboard
 
-Dashboard
+This is a simple dashboard for small team collaborations written in clojure using Compojure & MongoDB.
+It's a first attempt to use Compojure for web develpment and it's a in very alpha state.
+Lots of bugs a lack of functionality.
 
 ## Usage
 
-
-## API Urls:
-* /api/login
- - POST with login and password
-  - return success code or error code
-* /api/logout/
- - GET without params
-  - return success code or error code
-* /api/current
- - GET without params
-  - return all about current task if any
-* /api/close
- - GET without params - close all open task if any
-  - return success code or error code
- - GET with id - close task with id
-  - return success code or error code
-* /api/new
- - POST with task name and ETA
-  - return success code or error code
-* /api/update
- - POST with task id and new ETA
-  - return success code or error code
-* /api/open
- - GET without params
-   - return all my open tasks
- - GET with 2 params : start index and offset
-   - return offset number of my open tasks starting with start index
-* /api/my
- - GET with 2 params : start index and offset
-   - return offset number of my tasks starting with start index
- - GET without params:
-   - return 10 last my tasks
-
-
+## TODO
 
 ## License
 

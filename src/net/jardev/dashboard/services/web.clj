@@ -2,8 +2,7 @@
   (:use [net.jardev.dashboard.web.routes :only [app]]
         [ring.adapter.jetty])
   (:require [net.jardev.dashboard.config :as config]
-            [clojure.contrib.logging :as logging])
-  (:gen-class))
+            [clojure.contrib.logging :as logging]))
 
 
 (defn- log [msg & vals]
