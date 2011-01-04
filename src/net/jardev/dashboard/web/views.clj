@@ -38,14 +38,6 @@
       content]
      [:td {:style "width:50%"} ""]]]))
 
-(defn login []
-  (layout
-   [:div
-    [:form {:method "post"}
-     "User name: " [:input {:name "username" :type "text"}] [:br]
-     "Password: " [:input {:name "password" :type "password"}] [:br]
-     [:input {:type "submit" :value "Login"}]]]))
-
 (defn format-date [date]
   (let [now (Date.)]
     (.format (SimpleDateFormat.
@@ -61,7 +53,7 @@
                     (if (:done eta)
                       " eta-done"
                       (str " " not-done-class)))}
-   [:td.who (:username (:user eta))]
+   [:td.who (:username eta)]
    [:td.when (format-date (:when eta))]
    [:td.what
     [:b (escape-html (:what eta))]

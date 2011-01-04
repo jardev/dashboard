@@ -10,7 +10,7 @@
                  [ring/ring-jetty-adapter "0.3.5"]
                  [ring/ring-httpcore-adapter "0.3.5"]
                  [congomongo "0.1.3-SNAPSHOT"]
-                 [org.clojars.sethtrain/postal "0.2.0"]
+                 [com.draines/postal "1.4.0-SNAPSHOT"]
                  [lein-daemon "0.2.1"]]
   :dev-dependencies [[lein-daemon "0.2.1"]
                      [swank-clojure "1.2.1"]]
@@ -19,4 +19,5 @@
                             :pidfile "web.pid"}}
             "notify" {:ns "net.jardev.dashboard.services.notify"
                       :options {:errfile "notify.log"
-                                :pidfile "notify.pid"}}})
+                                :pidfile "notify.pid"
+                                :user "jarik"}}})

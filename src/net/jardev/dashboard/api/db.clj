@@ -26,6 +26,9 @@
   [obj]
   (assoc obj :_id (uuid)))
 
+(defn id [obj]
+  {:_id (:_id obj)})
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Users
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -50,11 +53,10 @@
             :password (sha1 (:password user))}))
 
 (defn change-password [user password]
-  (update! :users user (merge user {:password (sha1 password)})))
+  (update! :users (id user) (merge user {:password (sha1 password)})))
 
 (defn delete-user [user]
-  (destroy! :users
-            {:_id (:_id (find-user (:username user)))}))
+  (destroy! :users (id user)))
 
 (defn check-password [user password]
   (= (:password user) (sha1 password)))
@@ -65,19 +67,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ETA
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defn new-eta
-  ([eta] (new-eta (:user eta)
-                  (:what eta)
-                  (:when eta)
-                  (:comment eta)))
-  ([user what when comment]
-     (insert! :eta
-              (with-uuid
-                {:created (java.util.Date.)
-                 :user user
-                 :what what
-                 :when when
-                 :comment comment}))))
+(defn new-eta [user what when comment]
+  (insert! :eta
+           (with-uuid
+             {:created (java.util.Date.)
+              :username (:username user)
+              :what what
+              :when when
+              :comment comment})))
 
 (defn find-all-eta  []
   (fetch :eta))
@@ -98,19 +95,37 @@
                                      :where {:when {:$lte now}}))))})))
 
 (defn done-eta [eta]
-  (update! :eta {:_id (:_id eta)} (merge eta {:done (java.util.Date.)})))
+  (update! :eta (id eta) (merge eta {:done (java.util.Date.)})))
+
+(defn miss-eta
+  ([eta] (miss-eta eta (java.util.Date.)))
+  ([eta time]
+     (update! :eta (id eta) (merge eta {:missed time}))))
+
+(defn eta-notified
+  ([eta] (eta-notified eta (java.util.Date.)))
+  ([eta time]
+     (update! :eta (id eta) (merge eta {:notified time}))))
 
 (defn find-current-user-eta [user]
   (let [now (java.util.Date.)]
     (fetch-one :eta
                :where {:done {:$exists false}
-                       :user user
+                       :user (:username user)
                        :when {:$gte now}})))
 
 (defn find-not-done-user-eta [user]
   (fetch :eta
          :where {:done {:$exists false}
-                 :user user}))
+                 :username (:username user)}))
+
+(defn find-not-done-eta
+  ([] (find-not-done-eta (java.util.Date.)))
+  ([date-time]
+     (fetch :eta
+            :where {:done {:$exists false}
+                    :when {:$lt date-time}})))
+
 
 (defn get-noeta-users
   "Return users which do not have ETA"
