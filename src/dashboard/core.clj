@@ -4,7 +4,8 @@
         [dashboard.utils :only [log]]
         [dashboard.config :only [get-config]]
         [somnium.congomongo :only [mongo!]])
-  (:require [dashboard.notify :as notify]))
+  (:require [dashboard.notify :as notify]
+            [swank.swank :as swank]))
 
 
 (defn run []
@@ -24,10 +25,10 @@
   ;; Run notifier
   (notify/start)
 
+  (when (get-config :debug)
+    ;; Start Swank
+    (log "Starting Swank")
+    (swank/start-repl))
+
   (log "All services are running")
   0)
-
-
-
-
-
