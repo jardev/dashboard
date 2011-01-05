@@ -5,3 +5,6 @@ classes
 db
 *.pid
 *.log
+sites/default
+semantic.cache
+todo.org

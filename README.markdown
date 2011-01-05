@@ -11,25 +11,31 @@ Lots of bugs and lacks of functionality.
 3. Install Dashboard:
         $ git clone git://github.com/jardev/dashboard.git
         $ cd dashboard
-        $ lein deps
-4. Check settings in dashboard/src/net/jardev/dashboard/config.clj
+        $ make deps
+        $ cp sites/template sites/default
+4. Check settings in sites/default
 5. Run:
-        $ lein daemon start web
+        $ make start
 6. Add a user:
-        $ lein repl
-        user=> (require '[net.jardev.dashboard.api.db :as db])
-        user=> (db/add-user {:username "demo" :password "demo" :roles #{"user"}})
+        $ make repl
+        user=> (require '[dashboard.db :as db])
+        user=> (db/add-user {:username "demo"
+                             :password "demo"
+                             :email "your-email@demo.com"
+                             :roles #{"user"}})
 7. Got to http://127.0.0.1:8000/
 8. Log in as demo/demo
 
 
 ## TODO
-1. Notification Service for users without ETA
-2. Registration
-3. Users statistics
+1. Roles
+2. Invitation
+3. ETA tags
 4. Tasks
-5. Tasks statistics
-6. Reports
+5. Edit ETA in 2 minutes after create
+6. Users statistics
+7. Tasks statistics
+8. Reports
 
 ## License
 
