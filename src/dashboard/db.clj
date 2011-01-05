@@ -4,7 +4,6 @@
   (:import java.util.Date
            [java.security MessageDigest]))
 
-;(mongo! :db "dashboard")
 
 (def MAX-PAST-ETA-COUNT 10)
 

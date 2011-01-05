@@ -18,8 +18,9 @@ cd $INST
 make stop
 
 echo "Relinking $INST and copying old directories"
-cp $INST/sites ~/
+cp -r $INST/sites ~/
 [ -h $INST ] && rm $INST && ln -s $BASE/$proj $INST
+rm -rf $INST/sites
 mv -f ~/sites $INST/
 
 echo "Starting services"
