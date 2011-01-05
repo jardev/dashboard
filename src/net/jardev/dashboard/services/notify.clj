@@ -62,6 +62,7 @@
           (when (timedelta-gt now (:notified eta) config/notify-timeout)
             (notify-missed-eta eta))
           (when (timedelta-gt now missed config/eta-timeout)
+            (log "Missed %s" missed)
             (notify-missed-eta eta)))))))
 
 (defn start []

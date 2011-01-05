@@ -111,7 +111,7 @@
   (let [now (java.util.Date.)]
     (fetch-one :eta
                :where {:done {:$exists false}
-                       :user (:username user)
+                       :username (:username user)
                        :when {:$gte now}})))
 
 (defn find-not-done-user-eta [user]

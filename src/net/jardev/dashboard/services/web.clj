@@ -13,4 +13,5 @@
   (log "Starting web server...")
   (run-jetty (var app)
              {:port config/port
-              :host config/host}))
+              :host config/host
+              :join? false}))

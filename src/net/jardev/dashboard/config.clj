@@ -15,7 +15,7 @@
 (def notify-from "dashboard@jardev.net")
 (def notify-subject "You have missed your expectation!")
 (def notify-body (str "Hi %s,\r\n\r\nYour expectation for \"%s\" (%s) is expired.\r\n"
-               "Please set a new expectation at %s\r\n\r\n\r\n"
+               "Please set a new expectation at %s\r\n\r\n"
                "--\r\nThanks,\r\nDashboard"))
 
 
