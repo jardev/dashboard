@@ -9,6 +9,10 @@ INST=/opt/dashboard/active
 echo "Unpacking to $BASE"
 tar xjf $proj.tar.bz2 -C $BASE || (echo Failed to untar; exit $1)
 
+echo "Loading dependencies"
+cd $BASE/$proj
+make deps
+
 echo "Stopping services"
 cd $INST
 make stop

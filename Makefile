@@ -21,8 +21,8 @@ restart:
 	$(LEIN) daemon stop $(DEFAULT_SITE)
 	$(LEIN) daemon start $(DEFAULT_SITE)
 
-run: restart
-	$(LEIN) daemon check $(DEFAULT_SITE)
+deps:
+	$(LEIN) deps
 
 dist: test
 	git tag -a -f -m "Making release $(VERSION)" rel-$(VERSION)
