@@ -16,10 +16,11 @@
         sites-path (normalize-path# (or (:sites-path project) "sites"))
         pid-path (normalize-path# (or (:pid-path project) "pid"))
         log-path (normalize-path# (or (:log-path project) "log"))
-        user (:user project)
+        user (or (:user project) (System/getProperty "user.name"))
         daemons (reduce (fn [d file]
-                          (println (format "Loading site '%s/%s'" sites-path file))
-                          (assoc d file {:ns "net.jardev.dashboard.service"
+                          (println (format "Loading site %s/%s" sites-path file))
+                          (assoc d file {:ns "dashboard.service"
+                                         :args [(join-path sites-path file)]
                                          :options {:errfile (join-path log-path (format "%s.log" file))
                                                    :pidfile (join-path pid-path (format "%s.pid" file))
                                                    :user user}}))

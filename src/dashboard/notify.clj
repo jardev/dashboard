@@ -1,37 +1,21 @@
-(ns net.jardev.dashboard.services.notify
+(ns dashboard.notify
+  (:use [dashboard.utils]
+        [dashboard.config :only [get-config]])
   (:import [java.util Date]
            [java.text SimpleDateFormat])
-  (:require [net.jardev.dashboard.config :as config]
-            [net.jardev.dashboard.api.db :as db]
-            [com.draines.postal.core :as postal]
-            [clojure.contrib.logging :as logging]))
+  (:require [dashboard.db :as db]
+            [com.draines.postal.core :as postal]))
 
-(defn- log [msg & vals]
-  (let [line (apply format msg vals)]
-    (logging/info line)))
 
-(defn- timedelta-gt [t1 t2 delta]
-  (> (/ (- (.getTime t1) (.getTime t2)) 60000) delta))
-
-(defn format-date [date]
-  (let [now (Date.)]
-    (.format (SimpleDateFormat.
-              (if (and (== (.getYear now) (.getYear date))
-                       (== (.getMonth now) (.getMonth date))
-                       (== (.getDate now) (.getDate date)))
-                "HH:mm"
-                "yyyy-MM-dd HH:mm"))
-              date)))
-
-(defn- build-mail-body [eta]
+(defn build-mail-body [eta]
   (let [user (db/find-user (:username eta))]
-    (format config/notify-body
+    (format (get-config :notify :email-body)
             (or (:first-name user)
                 (:last-name user)
                 (:username user))
             (:what eta)
             (format-date (:when eta))
-            config/site)))
+            (get-config :web :site))))
 
 (defn notify-missed-eta
   "Send e-mail for ETAs user"
@@ -42,13 +26,12 @@
            email (:email user)]
        (log "Sending notification for @%s" (:username eta))
        (when email
-         (when (= 0 (:code (postal/send-message {:from config/notify-from
+         (when (= 0 (:code (postal/send-message {:from (get-config :notify :email-from)
                                                  :to email
-                                                 :subject config/notify-subject
+                                                 :subject (get-config :notify :email-subject)
                                                  :body (build-mail-body eta)})))
            ;; Set notified-flag
            (db/eta-notified eta date))))))
-
 
 (defn do-sync []
   "Check available ETAs and send messages for expired ones"
@@ -59,14 +42,13 @@
                        (:missed (db/miss-eta eta now)))]
         ;; Notify
         (if (:notified eta)
-          (when (timedelta-gt now (:notified eta) config/notify-timeout)
+          (when (timedelta-gt now (:notified eta) (get-config :notify :notify-timeout))
             (notify-missed-eta eta))
-          (when (timedelta-gt now missed config/eta-timeout)
+          (when (timedelta-gt now missed (get-config :notify :eta-timeout))
             (log "Missed %s" missed)
             (notify-missed-eta eta)))))))
 
 (defn start []
-  (log "Starting notifications service...")
-  (while true
-    (do-sync)
-    (Thread/sleep 30000)))
+  (daemon #(while true
+             (do-sync)
+             (Thread/sleep 30000))))

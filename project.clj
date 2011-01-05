@@ -14,14 +14,6 @@
                  [lein-daemon "0.2.1"]]
   :dev-dependencies [[lein-daemon "0.2.1"]
                      [swank-clojure "1.2.1"]]
-  :daemon {"web" {:ns "net.jardev.dashboard.services.web"
-                  :options {:errfile "web.log"
-                            :pidfile "web.pid"
-                            :user "jarik"}}
-           "notify" {:ns "net.jardev.dashboard.services.notify"
-                     :options {:errfile "notify.log"
-                               :pidfile "notify.pid"
-                               :user "jarik"}}}
   :jvm-opts ["-Xms8m" "-Xmx64m"])
 
 (load-file "load-sites.clj")

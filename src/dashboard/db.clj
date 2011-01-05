@@ -1,25 +1,16 @@
-(ns net.jardev.dashboard.api.db
-  (:use somnium.congomongo)
+(ns dashboard.db
+  (:use [somnium.congomongo]
+        [dashboard.utils])
   (:import java.util.Date
            [java.security MessageDigest]))
 
-(mongo! :db "dashboard")
+;(mongo! :db "dashboard")
 
 (def MAX-PAST-ETA-COUNT 10)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Utils
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defn- sha1 [obj]
-  (let [bytes (.getBytes (with-out-str (pr obj)))
-        res (new StringBuilder)
-        digest (apply vector (.digest (MessageDigest/getInstance "SHA-1") bytes))]
-    (dotimes [i (count digest)]
-      (.append res (Integer/toString (bit-and (digest i) 0xff) 16)))
-    (str "sha1$" res)))
-
-(defn- uuid []
-  (str (java.util.UUID/randomUUID)))
 
 (defn with-uuid
   "Return obj with new generated UUID in:_id"
@@ -95,17 +86,23 @@
                                      :where {:when {:$lte now}}))))})))
 
 (defn done-eta [eta]
-  (update! :eta (id eta) (merge eta {:done (java.util.Date.)})))
+  (let [new-eta (merge eta {:done (java.util.Date.)})]
+    (update! :eta (id eta) new-eta)
+    new-eta))
 
 (defn miss-eta
   ([eta] (miss-eta eta (java.util.Date.)))
   ([eta time]
-     (update! :eta (id eta) (merge eta {:missed time}))))
+     (let [new-eta (merge eta {:missed time})]
+       (update! :eta (id eta) new-eta)
+       new-eta)))
 
 (defn eta-notified
   ([eta] (eta-notified eta (java.util.Date.)))
   ([eta time]
-     (update! :eta (id eta) (merge eta {:notified time}))))
+     (let [new-eta (merge eta {:notified time})]
+       (update! :eta (id eta) new-eta)
+       new-eta)))
 
 (defn find-current-user-eta [user]
   (let [now (java.util.Date.)]

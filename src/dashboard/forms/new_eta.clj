@@ -1,12 +1,12 @@
-(ns net.jardev.dashboard.web.forms.new-eta
+(ns dashboard.forms.new-eta
   (:use [sandbar.validation :only [build-validator
                                    non-empty-string
                                    add-validation-error]]
         [sandbar.auth :only [current-username]]
         [compojure.core :only [defroutes]])
   (:import [java.text SimpleDateFormat ParseException])
-  (:require [net.jardev.dashboard.api.db :as db]
-            [net.jardev.dashboard.web.views :as views]
+  (:require [dashboard.db :as db]
+            [dashboard.views.base :as base-views]
             [sandbar.forms :as forms]))
 
 
@@ -77,6 +77,6 @@
   :defaults #(load-default-values %))
 
 
-(defroutes new-eta-routes
-  (new-eta-form (fn [request form] (views/form-layout "Add new ETA" form))))
+(defroutes routes
+  (new-eta-form (fn [request form] (base-views/form-layout "Add new ETA" form))))
 
