@@ -36,7 +36,7 @@
 
 (defn dashboard [etas noeta-users]
   (layout
-   "Dashboard"
+   "Dashboard "
    [:div
     [:div#users
      [:ul
