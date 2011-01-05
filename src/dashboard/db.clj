@@ -26,9 +26,11 @@
   (fetch :users))
 
 (defn find-user [username-or-email]
-  (or
-   (fetch-one :users :where {:username username-or-email})
-   (fetch-one :users :where {:email username-or-email})))
+  (let [user (or
+              (fetch-one :users :where {:username username-or-email})
+              (fetch-one :users :where {:email username-or-email}))]
+    (when user
+      (merge user {:roles (set (:roles user))}))))
 
 (defn add-user [user]
   (when (find-user (:username user))
@@ -68,6 +70,17 @@
 
 (defn find-all-eta  []
   (fetch :eta))
+
+(defn find-eta [id]
+  (fetch-one :eta :where {:_id id}))
+
+(defn update-eta! [eta what when comment]
+  (let [eta (merge eta {:what what
+                        :when when
+                        :comment comment})]
+    (log "NEW ETA: %s" eta)
+    (update! :eta (id eta) eta)
+    eta))
 
 (defn get-current-eta
   "Return current expectations"

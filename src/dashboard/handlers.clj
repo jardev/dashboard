@@ -2,16 +2,23 @@
   (:use [compojure.core]
         [ring.util.response]
         [sandbar core stateful-session auth]
-        [dashboard.forms.new-eta :only [new-eta-form]]
-        [dashboard.utils :only [log]])
-  (:import [java.text SimpleDateFormat ParseException])
+        [dashboard.forms.eta :only [eta-form]]
+        [dashboard.utils]
+        [dashboard.config :only [get-config]])
+  (:import [java.util Date])
   (:require [dashboard.db :as db]
             [dashboard.views.base :as base-views]
             [dashboard.views.dashboard :as dashboard-views]))
 
 (defn dashboard []
-  (dashboard-views/dashboard (db/get-current-eta)
-                             (db/get-noeta-users)))
+  (let [etas (db/get-current-eta)
+        eta-now (:now etas)
+        eta-future (for [eta (:future etas)]
+                     (assoc eta :can-edit (can-edit-eta? eta
+                                                         {:now eta-now})))
+        eta-past (:past etas)]
+    (dashboard-views/dashboard eta-future eta-now eta-past
+                               (db/get-noeta-users))))
 
 (defn permission-denied [request]
   (log "Permission denied for user %s. Request=%s"

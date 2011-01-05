@@ -21,7 +21,7 @@
          [:ul
           [:li (current-username)]
           [:li (link-to "/" "Home")]
-          [:li (link-to "/new-eta/" "ETA")]
+          [:li (link-to "/eta" "ETA")]
           [:li (link-to "/logout" "Logout")]]])
       [:div#content
        content]]]]))
@@ -41,12 +41,13 @@
    "Page Not Found"
    [:div
     [:h2 "404 Page Not Found"]
-    [:p
-     "You requested " (escape-html uri)]
-    [:p
-     "This page is not found"]
-    [:p
-     "Return to " (link-to "/" "Home")]]))
+    [:br][:br]
+    "You requested " (escape-html uri)
+    [:br][:br]
+    "This page is not found"
+    [:br][:br][:br]
+    "Return to " (link-to "/" "Home")
+    [:br][:br]]))
 
 (defn permission-denied []
   (layout "Permission Denied"

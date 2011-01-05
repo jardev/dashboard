@@ -8,7 +8,7 @@
   (:require [dashboard.views.base :as base-views]
             [dashboard.db :as db]
             [dashboard.auth :as auth]
-            [dashboard.forms.new-eta :as forms-new-eta]
+            [dashboard.forms.eta :as forms-eta]
             [dashboard.handlers :as handlers]))
 
 
@@ -23,17 +23,19 @@
   auth/routes
   (GET "/" [] (handlers/dashboard))
   (GET "/permission-denied" [request] handlers/permission-denied)
-  forms-new-eta/routes
+  forms-eta/routes
   (ANY "*" [request] handlers/handler404))
 
 (defn make-app [debug?]
   (-> dashboard-routes
+      (wrap-if debug? wrap-request-logging)
+      wrap-exception-logging
+      (wrap-if (not debug?) wrap-failsafe)
+      (wrap-if debug? wrap-stacktrace)
+      wrap-exception-404
       (with-security dashboard-security-policy auth/dashboard)
       wrap-stateful-session
       (wrap-file "public")
       wrap-file-info
-      (wrap-if debug? wrap-request-logging)
-      wrap-exception-logging
-      (wrap-if (not debug?) wrap-failsafe)
-      (wrap-if debug? wrap-stacktrace)))
+      wrap-charset))
 

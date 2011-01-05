@@ -321,6 +321,19 @@ table.eta td.when {
 
 table.eta td.what {
     padding-left:14px;
+    border-right: none;
+}
+
+table.eta td.actions {
+    width: 120px;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: right;
+    padding-right: 7px;
+}
+
+table.eta td.actions * {
+    font-weight: normal;
 }
 
 #page {

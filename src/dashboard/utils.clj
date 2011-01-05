@@ -1,4 +1,7 @@
 (ns dashboard.utils
+  (:use [clojure.contrib.condition :only [raise]]
+        [sandbar core auth]
+        [dashboard.config :only [get-config]])
   (:import [java.security MessageDigest]
            [java.util Date]
            [java.text SimpleDateFormat])
@@ -33,6 +36,9 @@
 (defn timedelta-gt [t1 t2 delta]
   (> (/ (- (.getTime t1) (.getTime t2)) 60000) delta))
 
+(defn timedelta-lt [t1 t2 delta]
+  (<= (/ (- (.getTime t1) (.getTime t2)) 60000) delta))
+
 (defn log-exception [e]
   (log "Exception:\n%s" (strp/pst-str e)))
 
@@ -49,3 +55,17 @@
       (.setDaemon t true)
       (.start t)
       t)))
+
+(defn throw-404 []
+  (raise :type :e404 :arg 'value :value 404))
+
+(defn can-edit-eta? [eta {:keys [now username delta]}]
+  (let [now (or now (Date.))
+        delta (or delta (get-config :dashboard :eta-edit-timeout) 2)
+        username (or username (current-username))]
+    (or (any-role-granted? "admin")
+        (and eta
+             (not (:done eta))
+             (not (:missed eta))
+             (= (:username eta) username)
+             (timedelta-lt now (:created eta) delta)))))

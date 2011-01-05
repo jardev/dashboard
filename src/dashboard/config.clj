@@ -8,4 +8,4 @@
                     (load-file file))))
 
 (defn get-config [& args]
-  (reduce #(%2 %1) *config* args))
+  (reduce #(if %1 (%2 %1) %1) *config* args))

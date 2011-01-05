@@ -7,6 +7,8 @@
   (:import [java.util Date]
            [java.text SimpleDateFormat]))
 
+(defn edit-eta-url [eta]
+  (format "/eta/%s" (:_id eta)))
 
 (defn show-eta [eta not-done-class]
   [:tr {:class (str (:row-class eta)
@@ -23,18 +25,23 @@
     [:small.smallnote
      (format-date (:created eta))
      (when (:done eta)
-       (str ", done(" (format-date (:done eta)) ")"))]]])
+       (str ", done(" (format-date (:done eta)) ")"))]]
+   [:td.actions
+    (when (:can-edit eta)
+      (list (image "edit.png")
+            (link-to (edit-eta-url eta) "edit")))]])
 
 (defn show-now [now]
   [:tr.eta-now
    [:td]
    [:td.when [:b (format-date now)]]
+   [:td]
    [:td]])
 
 (defn add-cycles [coll]
   (map #(assoc %1 :row-class %2) coll (cycle ["row1" "row2"])))
 
-(defn dashboard [etas noeta-users]
+(defn dashboard [eta-future eta-now eta-past noeta-users]
   (layout
    "Dashboard "
    [:div
@@ -44,10 +51,10 @@
        [:li.red (:username user)])]]
     [:h3 "Current Status:"]
     [:table.eta
-     (for [eta (add-cycles (:future etas))]
+     (for [eta (add-cycles eta-future)]
        (show-eta eta nil))
-     (show-now (:now etas))
-     (for [eta (add-cycles (:past etas))]
+     (show-now eta-now)
+     (for [eta (add-cycles eta-past)]
        (show-eta eta "missed"))]]
    [:meta {:http-equiv "refresh"
            :content "30; /"}]))

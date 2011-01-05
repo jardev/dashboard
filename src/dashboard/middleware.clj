@@ -1,5 +1,8 @@
 (ns dashboard.middleware
-  (:use [dashboard.utils]))
+  (:use [dashboard.utils]
+        [clojure.contrib.condition]
+        [dashboard.handlers :only [handler404]]))
+
 
 
 (defn wrap-request-logging [handler]
@@ -33,3 +36,27 @@
         {:status 500
         :headers {"Content-Type" "text/plain"}
          :body "We're sorry, something went wrong."}))))
+
+;; This middleware must be before exception handler but after sandbars middleware
+(defn wrap-exception-404 [handler]
+  (fn [req]
+    (handler-case :type
+      (handler req)
+      (handle :e404
+        {:status 404
+         :headers {"Content-Type" "text/html"}
+         :body (handler404 req)}))))
+
+
+(defn wrap-charset
+  ([handler] (wrap-charset handler "utf8"))
+  ([handler charset]
+     (fn [request]
+       (if-let [response (handler request)]
+         (if-let [content-type (get-in response [:headers "Content-Type"])]
+           (if (.contains content-type "charset")
+             response
+             (assoc-in response
+                       [:headers "Content-Type"]
+                       (str content-type "; charset=" charset)))
+           response)))))
