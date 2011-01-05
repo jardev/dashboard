@@ -29,7 +29,7 @@ dist: test
 	git archive --prefix=$(PROJECT)-$(VERSION)/ rel-$(VERSION) | bzip2 > ../$(PROJECT)-$(VERSION).tar.bz2
 
 deploy: dist
-	scp ../$(PROJECT)-$(VER).tar.bz2 deploy.sh $(DEPLOYTO):
+	scp ../$(PROJECT)-$(VERSION).tar.bz2 deploy.sh $(DEPLOYTO):
 	ssh $(DEPLOYTO) sh ./deploy.sh $(PROJECT)-$(VERSION)
 	./increment_version.py .version
 	git add .version
