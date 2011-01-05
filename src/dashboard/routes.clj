@@ -32,7 +32,7 @@
       wrap-stateful-session
       (wrap-file "public")
       wrap-file-info
-      wrap-request-logging
+      (wrap-if debug? wrap-request-logging)
       wrap-exception-logging
       (wrap-if (not debug?) wrap-failsafe)
       (wrap-if debug? wrap-stacktrace)))

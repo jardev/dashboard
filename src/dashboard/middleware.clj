@@ -22,6 +22,7 @@
       (handler req)
       (catch Exception e
         (log-exception e)
+        (log "Request: %s" req)
         (throw e)))))
 
 (defn wrap-failsafe [handler]
