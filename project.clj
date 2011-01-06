@@ -11,9 +11,11 @@
                  [ring/ring-httpcore-adapter "0.3.5"]
                  [congomongo "0.1.3-SNAPSHOT"]
                  [com.draines/postal "1.4.0-SNAPSHOT"]
+                 [org.clojars.hozumi/mongodb-session "1.0.1"]
                  [lein-daemon "0.2.1"]]
   :dev-dependencies [[lein-daemon "0.2.1"]
-                     [swank-clojure "1.2.1"]]
+                     [swank-clojure "1.2.1"]
+                     [radagast "1.0.0"]]
   :jvm-opts ["-Xms8m" "-Xmx64m"])
 
 (load-file "load-sites.clj")

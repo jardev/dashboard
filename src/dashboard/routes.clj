@@ -5,7 +5,8 @@
         [sandbar core stateful-session auth form-authentication]
         [dashboard.middleware]
         [dashboard.config :only [get-config]])
-  (:require [dashboard.views.base :as base-views]
+  (:require [hozumi.mongodb-session :as mongoss]
+            [dashboard.views.base :as base-views]
             [dashboard.db :as db]
             [dashboard.auth :as auth]
             [dashboard.forms.eta :as forms-eta]
@@ -34,7 +35,7 @@
       (wrap-if debug? wrap-stacktrace)
       wrap-exception-404
       (with-security dashboard-security-policy auth/dashboard)
-      wrap-stateful-session
+      (wrap-stateful-session {:store (mongoss/mongodb-store)})
       (wrap-file "public")
       wrap-file-info
       wrap-charset))
