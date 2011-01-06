@@ -39,3 +39,8 @@
       wrap-file-info
       wrap-charset))
 
+(def dashboard-app (make-app (get-config :debug)))
+
+(defn rebuild-app []
+  "Used as a trick for slime"
+  (def dashboard-app (make-app (get-config :debug))))
