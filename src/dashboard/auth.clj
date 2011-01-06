@@ -8,8 +8,11 @@
 (defauth dashboard
   :type :form
   :load (fn [username password]
-          (merge (db/find-user username)
-                 {:login-password password}))
+          (let [user (db/find-user username)]
+            (when user
+              (merge user
+                     {:login-password password
+                      :roles (set (:roles user))}))))
   :validator #(if (db/check-password % (:login-password %))
                 %
                 (add-validation-error % "Incorrect username or password!"))
