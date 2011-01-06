@@ -1,6 +1,8 @@
 (ns dashboard.middleware
   (:use [dashboard.utils]
         [clojure.contrib.condition]
+        [sandbar.stateful-session :only [session-get session-put!]]
+        [sandbar.auth :only [*sandbar-current-user*]]
         [dashboard.handlers :only [handler404]]))
 
 
@@ -18,6 +20,20 @@
   (if pred
     (apply wrapper handler args)
     handler))
+
+(defn wrap-user-roles [handler]
+  (fn [req]
+    (let [user (session-get :current-user)
+          patched-user (if (set? (:roles user))
+                         user
+                         (let [new-user (merge
+                                         user
+                                         {:roles (set (for [r (:roles user)]
+                                                        (keyword r)))})]
+                           ;(session-put! :current-user new-user)
+                           new-user))]
+      (binding [*sandbar-current-user* patched-user]
+        (handler req)))))
 
 (defn wrap-exception-logging [handler]
   (fn [req]

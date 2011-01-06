@@ -63,7 +63,7 @@
   (let [now (or now (Date.))
         delta (or delta (get-config :dashboard :eta-edit-timeout) 2)
         username (or username (current-username))]
-    (or (any-role-granted? "admin")
+    (or (any-role-granted? :admin)
         (and eta
              (not (:done eta))
              (not (:missed eta))
