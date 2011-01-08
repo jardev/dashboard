@@ -191,18 +191,18 @@
 
 (defmethod transform-tag-value [:input "checkbox"] [tags value]
   (if (vector? value)
-    (for [v value]
-      (when-not (empty? (html/select tags [(html/attr= :value v)]))
-        v))
+    (vec (for [v value]
+           (when-not (empty? (html/select tags [(html/attr= :value v)]))
+             v)))
     (when-not (empty? (html/select tags [(html/attr= :value value)]))
       value)))
 
 (defmethod transform-tag-value [:select nil] [tags value]
   (let [check #(not (empty? (html/select tags [(html/attr= :value %)])))]
     (if (vector? value)
-      (for [v value]
-        (when (check v)
-          v))
+      (vec (for [v value]
+             (when (check v)
+               v)))
       (when (check value)
         value))))
 
