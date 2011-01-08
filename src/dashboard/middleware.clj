@@ -14,6 +14,7 @@
           finish (System/currentTimeMillis)
           total (- finish start)]
       (log "Request %s %s (%dms)" request-method uri total)
+      (log "The while request is %s" req)
       resp)))
 
 (defn wrap-if [handler pred wrapper & args]
