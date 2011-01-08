@@ -46,11 +46,23 @@
     [:br][:br]
     "This page is not found"
     [:br][:br][:br]
-    "Return to " (link-to "/" "Home")
+    "Return to " (link-to "/" "Return to Home")
     [:br][:br]]))
 
 (defn permission-denied []
   (layout "Permission Denied"
           [:div
            [:h2 "Oops"]
-           "You do not have enough permissions"]))
+           [:br][:br]
+           "You do not have enough permissions"
+           [:br][:br][:br]
+           (when (current-user)
+             (list
+              "Return to " (link-to "/" "Home") " or " [:br]))
+           "Try to " (link-to "/login" "Login")
+           (when (current-user)
+             " as another user")
+           "&nbsp;"
+           [:br][:br]]
+          [:meta {:http-equiv "refresh"
+                  :content (format "30; %s" (if (current-username) "/" "/login"))}]))
