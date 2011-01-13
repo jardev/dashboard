@@ -16,7 +16,6 @@
   @*cookies*)
 
 (defn set-cookies! [cookie]
-  ;; TODO: Log (println (str "SET-COOKIE!: " cookie))
   (when cookie
     (swap! *cookies*
            (fn [cookies]
@@ -41,6 +40,8 @@
      ~@code))
 
 (defn request
+  ([method uri]
+     (request method uri {} {}))
   ([method uri params]
      (request method uri params {}))
   ([method uri params request-params]
@@ -50,38 +51,18 @@
                                 :uri uri
                                 :params params
                                 :cookies (get-cookies)}))]
-         ;; TODO: Log (println (str "RESPONSE: " res))
          (when (:headers res)
            (set-cookies! (first ((:headers res) "Set-Cookie"))))
          (if (== (:status res) 302)
            (request :get ((:headers res) "Location") {})
-           res)))))
-
-(defn do-get
-  ([uri] (do-get uri {} {}))
-  ([uri params] (do-get uri params {}))
-  ([uri params request-params]
-     (request :get uri params request-params)))
-
-(defn do-post
-  ([uri] (do-post uri {} {}))
-  ([uri params] (do-post uri params {}))
-  ([uri params request-params]
-     (request :post uri params request-params)))
+           (merge res {:current-uri uri}))))))
 
 (defn check200 []
   (when *response*
     (is (= 200 (:status *response*)))))
 
-(defmacro with-go200 [uri & code]
-  `(with-response (do-get ~uri)
-     (check200)
-     (binding [*uri* ~uri]
-       ~@code)))
-
-(defn go200 [uri]
-  (with-response (do-get uri)
-    (check200)))
+(defn get-current-uri []
+  (:current-uri *response*))
 
 (defn get-body []
   (:body *response*))
@@ -162,11 +143,21 @@
                  (eon (select-tags form :input "checkbox" key))
                  (eon (select-tags form :select key)))]
     (is tags (format "Searching tag for %s in %s" key form))
-    ;(println (format "FORM=%s\r\nKEY=%s\r\nTAGS=%s" form key (pr-str tags)))
     tags))
 
+(defn collect-default-values [form]
+  (reduce (fn [res control]
+            (let [control-type (-> control :attrs :type)]
+              (if (or (= "submit" control-type)
+                      (= "reset" control-type))
+                res
+                (assoc res
+                  (keyword (-> control :attrs :name))
+                  (-> control :attrs :value)))))
+          {}
+          (html/select form #{[:input] [:select] [:textarea]})))
+
 (defmulti transform-tag-value (fn [tags value]
-                                ;(println (format "TAGS=%s VALUE=%s" (pr-str tags) value))
                                 (let [tag-description (first tags)
                                       tag (:tag tag-description)
                                       type (-> tag-description :attrs :type)]
@@ -235,10 +226,11 @@
      (let [forms (html/select (get-body-resource) [:form])
            form (nth forms index)
            action (-> form :attrs :action)
-           uri (if (empty? action) *uri* action)]
+           uri (if (empty? action) (get-current-uri) action)]
        (is (not (empty? uri)) uri)
        ;; Do post request checking that all fields in params
        ;; are belong to the form and have existing values
-       (do-post uri (merge (transform-values form params)
-                           (when submit
-                             {submit ""}))))))
+       (request :post uri (merge (collect-default-values form)
+                                 (merge (transform-values form params)
+                                        (when submit
+                                          {submit ""})))))))
